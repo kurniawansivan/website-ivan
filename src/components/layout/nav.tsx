@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { AnimatePresence, motion, useScroll } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import type { Dictionary } from "@/content/dictionary";
 import { localePath, type Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -57,6 +57,16 @@ export function Nav({ locale, path, isHome, dict }: NavProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  /** On the home page the logo scrolls to the top and clears any #hash; elsewhere it is a normal link home. */
+  function goHome(event: MouseEvent<HTMLAnchorElement>) {
+    setOpen(false);
+    if (!isHome) return;
+    event.preventDefault();
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+    window.history.replaceState(null, "", home);
+  }
+
   const links = SECTIONS.map((id) => ({ id, label: dict[id], href: `${home}#${id}` }));
   const contactHref = `${home}#contact`;
 
@@ -68,7 +78,7 @@ export function Nav({ locale, path, isHome, dict }: NavProps) {
       )}
     >
       <div className={cn(containerClass, "flex h-16 items-center justify-between gap-4")}>
-        <Link href={home} aria-label={dict.home} className="group flex items-center gap-2.5">
+        <Link href={home} onClick={goHome} aria-label={dict.home} className="group flex items-center gap-2.5">
           <BlockMark className="h-7 w-7 text-accent-text transition-transform duration-500 group-hover:rotate-60" />
           <span className="hidden font-display text-base font-semibold sm:block">Ivan Kurniawan</span>
         </Link>

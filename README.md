@@ -44,4 +44,4 @@ Add a project by appending an entry to `projects` in `src/content/projects.ts`. 
 
 ## Design notes
 
-The visual language is an "onchain ledger": each project is a block with a real SHA-256 hash, experience is a chain of blocks with parent hashes, and the hero shows a live explorer-style feed of recent GitHub pushes. Dark is the default theme; the toggle persists in `localStorage`.
+The visual language is an "onchain ledger": each project is a block with a real SHA-256 hash, experience is a chain of blocks with parent hashes, and the hero shows a curated table of production builds (`src/content/showcase.ts`). Dark is the default theme; the toggle persists in `localStorage`.

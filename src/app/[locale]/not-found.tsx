@@ -12,7 +12,7 @@ export default function NotFound() {
 
   return (
     <PageShell locale="en" path="/">
-      <section className="flex min-h-svh items-center pb-16 pt-28">
+      <section className="flex min-h-svh items-center pb-stack pt-page">
         <div className={containerClass}>
           <p className="font-mono text-sm text-accent-text">{en.code}</p>
           <h1 className="mt-3 text-5xl font-bold sm:text-7xl">{en.title}</h1>

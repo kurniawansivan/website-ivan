@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/content/dictionary";
 import { projects } from "@/content/projects";
-import { site } from "@/content/site";
-import { daysSince, getGithub } from "@/lib/github";
+import { getGithub } from "@/lib/github";
 import { isLocale } from "@/lib/i18n";
 import { personSchema, websiteSchema } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
@@ -20,7 +19,7 @@ import { Work } from "@/components/sections/work";
 
 type Props = { params: Promise<{ locale: string }> };
 
-/** Re-render hourly so the GitHub feed and block height stay fresh without a redeploy. */
+/** Re-render hourly so the GitHub-derived stats stay fresh without a redeploy. */
 export const revalidate = 3600;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -46,7 +45,7 @@ export default async function HomePage({ params }: Props) {
   return (
     <PageShell locale={locale} path="/" isHome>
       <JsonLd graph={[personSchema(locale), websiteSchema(locale)]} />
-      <Hero locale={locale} dict={dict.hero} activity={github.activity} blockHeight={daysSince(site.genesis)} />
+      <Hero locale={locale} dict={dict.hero} />
       <Stats
         locale={locale}
         dict={dict.proof}

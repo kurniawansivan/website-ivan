@@ -70,7 +70,7 @@ export default async function ProjectPage({ params }: Props) {
         ]}
       />
 
-      <article className="pb-20 pt-28 sm:pt-36">
+      <article className="pb-section pt-page">
         <div className={containerClass}>
           <Link
             href={localePath(locale, "/work")}
@@ -92,7 +92,7 @@ export default async function ProjectPage({ params }: Props) {
           </header>
 
           {visual ? (
-            <Reveal className="mt-10">
+            <Reveal className="mt-8">
               <figure className="overflow-hidden rounded-2xl border border-line bg-surface">
                 <ProjectVisual slug={project.slug} label={visual.alt} />
                 <figcaption className="border-t border-line px-4 py-3 text-xs text-muted sm:px-5">
@@ -102,8 +102,8 @@ export default async function ProjectPage({ params }: Props) {
             </Reveal>
           ) : null}
 
-          <div className="mt-14 grid gap-12 lg:grid-cols-[1fr_20rem] lg:gap-16">
-            <div className="space-y-12">
+          <div className="mt-stack grid gap-stack lg:grid-cols-[1fr_20rem]">
+            <div className="space-y-stack">
               <Reveal>
                 <h2 className="eyebrow">{dict.project.overview}</h2>
                 <p className="mt-4 text-lg text-ink/85">{copy.summary}</p>
@@ -123,7 +123,7 @@ export default async function ProjectPage({ params }: Props) {
             </div>
 
             <Reveal delay={0.1}>
-              <aside className="space-y-6 rounded-2xl border border-line bg-surface p-6 lg:sticky lg:top-24">
+              <aside className="space-y-6 rounded-2xl border border-line bg-surface p-5 sm:p-6 lg:sticky lg:top-24">
                 <dl className="grid grid-cols-2 gap-x-4 gap-y-4 text-sm">
                   {copy.role ? (
                     <div className="col-span-2">
@@ -187,7 +187,7 @@ export default async function ProjectPage({ params }: Props) {
             </Reveal>
           </div>
 
-          <nav aria-label="Project navigation" className="mt-20 grid gap-4 sm:grid-cols-2">
+          <nav aria-label="Project navigation" className="mt-stack grid gap-4 sm:grid-cols-2">
             {[
               { project: previous, label: dict.project.prev, icon: <ArrowLeft className="h-4 w-4" />, align: "" },
               { project: next, label: dict.project.next, icon: <ArrowRight className="h-4 w-4" />, align: "sm:text-right sm:items-end" },
@@ -196,7 +196,7 @@ export default async function ProjectPage({ params }: Props) {
                 key={label}
                 href={localePath(locale, `/work/${target.slug}`)}
                 className={cn(
-                  "group flex flex-col gap-1 rounded-2xl border border-line bg-surface p-5 transition-colors hover:border-accent-text/50",
+                  "group flex flex-col gap-1 rounded-2xl border border-line bg-surface p-5 transition-colors hover:border-accent-text/50 sm:p-6",
                   align,
                 )}
               >
@@ -210,7 +210,7 @@ export default async function ProjectPage({ params }: Props) {
             ))}
           </nav>
 
-          <div className="mt-16 flex flex-col items-start justify-between gap-4 rounded-2xl border border-line bg-surface p-6 sm:flex-row sm:items-center sm:p-8">
+          <div className="mt-4 flex flex-col items-start justify-between gap-4 rounded-2xl border border-line bg-surface p-5 sm:flex-row sm:items-center sm:p-6">
             <p className="font-display text-2xl font-semibold">{dict.project.discuss}</p>
             <ButtonLink href={`${localePath(locale, "/")}#contact`}>
               {dict.project.discussCta}

@@ -13,7 +13,7 @@ export function Services({ dict }: { dict: Dictionary["services"] }) {
           <li key={item.title}>
             <Reveal delay={index * 0.08} className="h-full">
               <GlowCard className="h-full rounded-2xl">
-                <div className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6">
+                <div className="flex h-full flex-col rounded-2xl border border-line bg-surface p-5 sm:p-6">
                   <HexBadge>{String(index + 1).padStart(2, "0")}</HexBadge>
                   <h3 className="mt-5 text-xl font-semibold">{item.title}</h3>
                   <p className="mt-3 text-sm text-muted">{item.body}</p>
@@ -32,11 +32,11 @@ export function Services({ dict }: { dict: Dictionary["services"] }) {
         ))}
       </ul>
 
-      <div className="mt-20">
+      <div className="mt-stack">
         <Reveal>
           <h3 className="font-display text-2xl font-semibold sm:text-3xl">{dict.processTitle}</h3>
         </Reveal>
-        <ol className="relative mt-8 grid gap-8 md:grid-cols-4 md:gap-6">
+        <ol className="relative mt-8 grid gap-8 md:grid-cols-4 md:gap-4">
           <div
             aria-hidden="true"
             className="absolute left-5 top-5 hidden h-px w-[calc(100%-2.5rem)] bg-line-strong md:block"

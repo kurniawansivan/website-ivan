@@ -36,7 +36,7 @@ function Track({ hidden }: { hidden?: boolean }) {
 /** Decorative ticker; the same technologies are listed in text in the About section. */
 export function Marquee() {
   return (
-    <div aria-hidden="true" className="overflow-hidden py-6">
+    <div aria-hidden="true" className="overflow-hidden border-y border-line py-6">
       <div className="flex w-max animate-marquee motion-reduce:animate-none hover:[animation-play-state:paused]">
         <Track />
         <Track hidden />

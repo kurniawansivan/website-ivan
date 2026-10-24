@@ -22,9 +22,9 @@ export function Stats({ locale, dict, repos, languages, cases }: StatsProps) {
   ];
 
   return (
-    <section aria-label="Highlights" className="border-y border-line bg-surface/40">
+    <section aria-label="Highlights" className="border-t border-line bg-surface/40">
       <div className={containerClass}>
-        <dl className="grid grid-cols-2 gap-x-6 gap-y-8 py-10 md:grid-cols-4">
+        <dl className="grid grid-cols-2 gap-x-6 gap-y-8 py-10 sm:py-12 md:grid-cols-4">
           {stats.map((stat) => (
             <div key={stat.label} className="flex flex-col-reverse gap-1">
               <dt className="text-sm text-muted">{stat.label}</dt>

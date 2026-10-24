@@ -43,7 +43,7 @@ export default async function WorkIndexPage({ params }: Props) {
           ]),
         ]}
       />
-      <section aria-labelledby="work-title" className="pb-24 pt-28 sm:pt-36">
+      <section aria-labelledby="work-title" className="pb-section pt-page">
         <div className={containerClass}>
           <Reveal>
             <p className="eyebrow">
@@ -55,7 +55,7 @@ export default async function WorkIndexPage({ params }: Props) {
             </h1>
             <p className="mt-4 max-w-2xl text-lg text-muted">{dict.work.index.intro}</p>
           </Reveal>
-          <div className="mt-12">
+          <div className="mt-stack">
             <WorkGrid projects={views} filters={dict.work.filters} filterLabel={dict.work.filterLabel} />
           </div>
         </div>

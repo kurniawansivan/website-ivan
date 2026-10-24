@@ -15,7 +15,7 @@ interface SectionProps {
 
 export function Section({ id, eyebrow, title, intro, className, children }: SectionProps) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className={cn("relative py-20 sm:py-28", className)}>
+    <section id={id} aria-labelledby={`${id}-title`} className={cn("relative py-section", className)}>
       <div className={containerClass}>
         <Reveal>
           <p className="eyebrow">
@@ -27,7 +27,7 @@ export function Section({ id, eyebrow, title, intro, className, children }: Sect
           </h2>
           {intro ? <p className="mt-4 max-w-2xl text-lg text-muted">{intro}</p> : null}
         </Reveal>
-        <div className="mt-12">{children}</div>
+        <div className="mt-stack">{children}</div>
       </div>
     </section>
   );

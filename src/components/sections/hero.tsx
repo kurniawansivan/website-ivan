@@ -1,7 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content/dictionary";
 import { site } from "@/content/site";
-import type { Activity } from "@/lib/github";
 import { localePath, type Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { NetworkBackground } from "@/components/background/network-background";
@@ -9,21 +8,19 @@ import { ButtonLink } from "@/components/ui/button-link";
 import { ArrowRight, MapPinIcon } from "@/components/ui/icons";
 import { RoleCycler } from "@/components/ui/role-cycler";
 import { containerClass } from "@/components/ui/section";
-import { HeroLedger } from "./hero-ledger";
+import { HeroShowcase } from "./hero-showcase";
 
 interface HeroProps {
   locale: Locale;
   dict: Dictionary["hero"];
-  activity: Activity[];
-  blockHeight: number;
 }
 
 const rise = (i: number) => ({ "--i": i }) as CSSProperties;
 
-export function Hero({ locale, dict, activity, blockHeight }: HeroProps) {
+export function Hero({ locale, dict }: HeroProps) {
   const home = localePath(locale, "/");
   return (
-    <section id="top" className="relative isolate flex min-h-svh items-center overflow-hidden pb-16 pt-28 sm:pt-32">
+    <section id="top" className="relative isolate flex min-h-svh items-center overflow-hidden pb-stack pt-page">
       <NetworkBackground className="mask-fade-b absolute inset-0 -z-10 h-full w-full" />
       <div aria-hidden="true" className="bg-grid mask-fade-radial absolute inset-0 -z-10" />
 
@@ -91,7 +88,7 @@ export function Hero({ locale, dict, activity, blockHeight }: HeroProps) {
           </p>
         </div>
 
-        <HeroLedger locale={locale} dict={dict} activity={activity} blockHeight={blockHeight} />
+        <HeroShowcase locale={locale} dict={dict.showcase} />
       </div>
     </section>
   );

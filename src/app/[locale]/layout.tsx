@@ -72,7 +72,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
   const dict = getDictionary(locale);
 
   return (
-    <html lang={locale} suppressHydrationWarning className={`${display.variable} ${sans.variable} ${mono.variable}`}>
+    <html lang={locale} data-scroll-behavior="smooth" suppressHydrationWarning className={`${display.variable} ${sans.variable} ${mono.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         <noscript>

@@ -8,10 +8,10 @@ import { CopyEmail } from "./copy-email";
 
 export function Contact({ dict }: { dict: Dictionary["contact"] }) {
   return (
-    <section id="contact" aria-labelledby="contact-title" className="relative py-20 sm:py-28">
+    <section id="contact" aria-labelledby="contact-title" className="relative py-section">
       <div className={containerClass}>
         <Reveal>
-          <div className="relative isolate overflow-hidden rounded-3xl border border-line bg-surface p-8 sm:p-14">
+          <div className="relative isolate overflow-hidden rounded-3xl border border-line bg-surface p-6 sm:p-12">
             <div
               aria-hidden="true"
               className="absolute -right-24 -top-24 -z-10 h-96 w-96 bg-[radial-gradient(closest-side,rgb(var(--accent-rgb)/0.22),transparent)]"

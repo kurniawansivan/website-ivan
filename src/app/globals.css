@@ -45,6 +45,14 @@
   --glow-b: 0.07;
 }
 
+/* One vertical rhythm for the whole site. Use py-section between sections, mt-stack between blocks
+   inside a section, pt-page below the fixed header, and gap-4 / space-y-6 inside card lists. */
+@theme static {
+  --spacing-section: clamp(5rem, 9vw, 8rem);
+  --spacing-stack: clamp(2.5rem, 5vw, 4rem);
+  --spacing-page: calc(4rem + clamp(2.5rem, 6vw, 5rem));
+}
+
 @theme inline {
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
@@ -112,7 +120,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5.5rem;
+    scroll-padding-top: 4rem;
     -webkit-text-size-adjust: 100%;
   }
   body {
@@ -124,6 +132,10 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: clip;
+  }
+  /* Land anchored sections with the heading a fixed distance under the header, whatever the section padding. */
+  section[id] {
+    scroll-margin-top: calc(2.5rem - var(--spacing-section));
   }
   h1,
   h2,

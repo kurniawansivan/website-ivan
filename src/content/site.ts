@@ -16,8 +16,6 @@ export const site = {
   githubUser: "kurniawansivan",
   linkedin: "https://www.linkedin.com/in/ivankurniawansentosa/",
   location: { city: "Bali", country: "Indonesia", countryCode: "ID" },
-  /** GitHub account creation date: the "genesis block" of the block-height counter. */
-  genesis: "2020-06-04",
   /** First full-time engineering role, used for the years-of-experience counter. */
   careerStartYear: 2021,
   availableForWork: true,
