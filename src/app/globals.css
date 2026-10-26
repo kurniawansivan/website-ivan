@@ -72,8 +72,8 @@
   --color-sky: var(--sky);
   --color-amber: var(--amber);
 
-  /* Pixel type is for big display moments only (40px and up). Everything readable uses sans or mono. */
-  --font-display: var(--font-pixelify), ui-sans-serif, system-ui, sans-serif;
+  /* Display is a chunky rounded sans so the extruded titles stay readable; body and labels use sans or mono. */
+  --font-display: var(--font-rubik), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -173,7 +173,7 @@
   h1,
   h2 {
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 800;
     text-wrap: balance;
   }
   h3,

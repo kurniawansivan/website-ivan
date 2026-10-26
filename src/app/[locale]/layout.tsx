@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Instrument_Sans, Pixelify_Sans } from "next/font/google";
+import { IBM_Plex_Mono, Instrument_Sans, Rubik } from "next/font/google";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { getDictionary } from "@/content/dictionary";
@@ -9,7 +9,7 @@ import { Backdrop } from "@/components/layout/backdrop";
 import { Providers } from "@/components/providers";
 import "../globals.css";
 
-const display = Pixelify_Sans({ subsets: ["latin"], variable: "--font-pixelify", display: "swap" });
+const display = Rubik({ subsets: ["latin"], variable: "--font-rubik", display: "swap" });
 const sans = Instrument_Sans({ subsets: ["latin"], variable: "--font-instrument-sans", display: "swap" });
 const mono = IBM_Plex_Mono({
   subsets: ["latin"],

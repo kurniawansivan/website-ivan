@@ -83,7 +83,7 @@ export default async function ProjectPage({ params }: Props) {
               <span>Ref 0x{blockHash(project.slug, 8)}</span>
               {project.year ? <span>{project.year}</span> : null}
             </p>
-            <h1 className="title-shadow mt-8 font-display text-[clamp(2.5rem,7vw,5.5rem)] font-bold leading-[1.05] tracking-[-0.01em]">
+            <h1 className="title-shadow mt-8 font-display text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
               {copy.title}
             </h1>
             <p className="mt-6 max-w-2xl text-xl text-muted">{copy.tagline}</p>

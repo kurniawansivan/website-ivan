@@ -37,7 +37,7 @@ export function Section({ id, stage, eyebrow, title, intro, as: Heading = "h2", 
               </p>
               <Heading
                 id={`${id}-title`}
-                className="title-shadow-sm mt-6 font-display text-[clamp(2.5rem,5.4vw,4rem)] font-bold leading-[1.05] tracking-[-0.01em] lg:text-[clamp(2.5rem,3.4vw,3.25rem)]"
+                className="title-shadow-sm mt-6 font-display text-[clamp(2.5rem,5.4vw,4rem)] font-extrabold leading-[1.05] tracking-[-0.02em] lg:text-[clamp(2.5rem,3.4vw,3.25rem)]"
               >
                 {title}
               </Heading>

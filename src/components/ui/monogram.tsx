@@ -6,7 +6,7 @@ export function Monogram({ className }: { className?: string }) {
     <span
       aria-hidden="true"
       className={cn(
-        "pixel relative grid h-9 w-9 shrink-0 place-items-center font-display text-xl font-bold leading-none",
+        "pixel relative grid h-9 w-9 shrink-0 place-items-center font-display text-xl font-extrabold leading-none",
         className,
       )}
     >

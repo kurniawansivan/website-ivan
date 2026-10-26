@@ -48,7 +48,7 @@ The visual language is a SNES-era JRPG menu: 4px pixel-notched windows (drawn wi
 
 **Readability rules**
 
-- Pixel type (Pixelify Sans) is only for big display moments, 40px and up: the hero name, section titles, big numerals, the 404.
+- No pixel fonts. Display type (hero name, section titles, big numerals, the 404) is Rubik 800 with the extruded shadow; the pixel look comes from the windows, buttons and sprites, not the letterforms.
 - Everything readable is Instrument Sans (body 18px / 1.7, headings 700, labels 600 uppercase) or IBM Plex Mono (hashes, stack, never below 12px).
 - Reading column is capped near 60-64 characters. On wide screens each section pins its title in a left column while the content scrolls on the right; on narrow screens it stacks.
 - One window per section at most. Lists inside use plain hairlines instead of nested boxes.

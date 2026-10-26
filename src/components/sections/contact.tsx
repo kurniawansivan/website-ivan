@@ -31,7 +31,7 @@ export function Contact({ dict }: { dict: Dictionary["contact"] }) {
 
             <h2
               id="contact-title"
-              className="title-shadow mt-8 font-display text-[clamp(2.5rem,6.6vw,5.5rem)] font-bold leading-[1.05] tracking-[-0.01em]"
+              className="title-shadow mt-8 font-display text-[clamp(2.5rem,6.6vw,5.5rem)] font-extrabold leading-[1.05] tracking-[-0.02em]"
             >
               {dict.title}
             </h2>

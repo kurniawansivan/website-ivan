@@ -42,7 +42,7 @@ export function Hero({ locale, dict, opening }: HeroProps) {
           </span>
         </div>
 
-        <h1 className="title-shadow mt-10 font-display text-[clamp(2.75rem,9.6vw,8rem)] font-bold leading-[1.02] tracking-[-0.01em]">
+        <h1 className="title-shadow mt-10 font-display text-[clamp(2.75rem,9.6vw,8rem)] font-extrabold leading-[1.02] tracking-[-0.02em]">
           <span className="sr-only">{site.name}</span>
           <span aria-hidden="true">
             {WORDS.map((word) => (

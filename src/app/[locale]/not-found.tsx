@@ -15,7 +15,7 @@ export default function NotFound() {
       <section className="flex min-h-svh items-center pb-stack pt-page">
         <div className={containerClass}>
           <p className="hud text-ink">Game over</p>
-          <p className="title-shadow mt-6 font-display text-[clamp(6rem,22vw,16rem)] font-bold leading-[0.9]">{en.code}</p>
+          <p className="title-shadow mt-6 font-display text-[clamp(6rem,22vw,16rem)] font-extrabold leading-[0.9]">{en.code}</p>
           <h1 className="mt-8 font-heading text-[clamp(1.8rem,4.6vw,3.25rem)] font-bold leading-tight">{en.title}</h1>
           <p className="mt-4 max-w-xl text-lg text-muted">{en.body}</p>
           <p className="mt-2 max-w-xl text-muted" lang="id">

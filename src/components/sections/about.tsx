@@ -14,7 +14,7 @@ export function About({ dict }: { dict: Dictionary["about"] }) {
             <div className="flex items-center gap-4 border-b-2 border-line pb-5">
               <span
                 aria-hidden="true"
-                className="grid h-14 w-14 shrink-0 place-items-center bg-accent font-display text-2xl font-bold text-accent-ink shadow-[0_-3px_0_0_var(--ink),0_3px_0_0_var(--ink),-3px_0_0_0_var(--ink),3px_0_0_0_var(--ink)]"
+                className="grid h-14 w-14 shrink-0 place-items-center bg-accent font-display text-2xl font-extrabold text-accent-ink shadow-[0_-3px_0_0_var(--ink),0_3px_0_0_var(--ink),-3px_0_0_0_var(--ink),3px_0_0_0_var(--ink)]"
               >
                 IK
               </span>

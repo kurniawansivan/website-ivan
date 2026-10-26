@@ -43,7 +43,7 @@ export function Stats({ locale, dict, repos, languages, cases }: StatsProps) {
                 )}
               >
                 <dt className="hud">{stat.label}</dt>
-                <dd className="title-shadow-sm font-display text-[clamp(2.75rem,6vw,4.5rem)] font-bold leading-none">
+                <dd className="title-shadow-sm font-display text-[clamp(2.75rem,6vw,4.5rem)] font-extrabold leading-none">
                   <CountUp value={stat.value} suffix={stat.suffix} locale={intlLocale[locale]} />
                 </dd>
               </div>
