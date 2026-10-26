@@ -4,13 +4,10 @@ import Link from "next/link";
 import { locales, localePath, type Locale } from "@/lib/i18n";
 import { MoonIcon, SunIcon } from "@/components/ui/icons";
 
-const controlBox =
-  "grid h-11 w-11 place-items-center rounded-full border border-line-strong text-muted transition-colors hover:border-accent-text/60 hover:text-ink md:h-10 md:w-10";
-
 export function ThemeToggle({ label }: { label: string }) {
   function toggle() {
     const root = document.documentElement;
-    const next = root.dataset.theme === "light" ? "dark" : "light";
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
     root.dataset.theme = next;
     try {
       localStorage.setItem("theme", next);
@@ -20,9 +17,14 @@ export function ThemeToggle({ label }: { label: string }) {
   }
 
   return (
-    <button type="button" onClick={toggle} aria-label={label} className={controlBox}>
-      <SunIcon className="h-[18px] w-[18px] light:hidden" />
-      <MoonIcon className="hidden h-[18px] w-[18px] light:block" />
+    <button
+      type="button"
+      onClick={toggle}
+      aria-label={label}
+      className="pixel grid h-11 w-11 place-items-center text-ink transition-colors hover:bg-accent hover:text-accent-ink hover:[background-image:none] md:h-10 md:w-10"
+    >
+      <MoonIcon className="h-[18px] w-[18px] dark:hidden" />
+      <SunIcon className="hidden h-[18px] w-[18px] dark:block" />
     </button>
   );
 }
@@ -35,16 +37,12 @@ interface LangSwitchProps {
 }
 
 export function LangSwitch({ locale, path, label }: LangSwitchProps) {
-  const item = "grid h-full min-w-9 place-items-center rounded-full px-2.5";
+  const cell = "grid min-w-10 place-items-center px-2.5 text-xs font-bold";
   return (
-    <div
-      role="group"
-      aria-label={label}
-      className="flex h-11 items-center rounded-full border border-line-strong p-1 font-mono text-xs md:h-10"
-    >
+    <div role="group" aria-label={label} className="pixel flex h-11 items-stretch overflow-hidden md:h-10">
       {locales.map((code) =>
         code === locale ? (
-          <span key={code} aria-current="true" className={`${item} bg-accent/15 font-medium text-accent-text`}>
+          <span key={code} aria-current="true" className={`${cell} bg-accent text-accent-ink`}>
             {code.toUpperCase()}
           </span>
         ) : (
@@ -53,7 +51,7 @@ export function LangSwitch({ locale, path, label }: LangSwitchProps) {
             href={localePath(code, path)}
             hrefLang={code}
             lang={code}
-            className={`${item} text-muted transition-colors hover:text-ink`}
+            className={`${cell} text-ink transition-colors hover:bg-raised`}
           >
             {code.toUpperCase()}
           </Link>

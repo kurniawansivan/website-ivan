@@ -18,7 +18,7 @@ export function Experience({ dict }: { dict: Dictionary["experience"] }) {
   }));
 
   return (
-    <Section id="experience" eyebrow={dict.eyebrow} title={dict.title} intro={dict.intro}>
+    <Section id="experience" stage={5} eyebrow={dict.eyebrow} title={dict.title} intro={dict.intro}>
       <ChainTimeline items={items} labels={{ block: dict.blockLabel, parent: dict.parentLabel }} />
     </Section>
   );

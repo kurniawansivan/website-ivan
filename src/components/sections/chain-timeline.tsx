@@ -1,8 +1,7 @@
 "use client";
 
-import { motion, useScroll } from "motion/react";
+import { motion, useReducedMotion, useScroll } from "motion/react";
 import { useRef } from "react";
-import { HexBadge } from "@/components/ui/hex-badge";
 import { Reveal } from "@/components/ui/reveal";
 
 export interface ChainItem {
@@ -21,60 +20,60 @@ interface ChainTimelineProps {
   labels: { block: string; parent: string };
 }
 
-/** Vertical chain of blocks. The rail fills with the accent gradient as the list scrolls past. */
+/** Save points along a path. The purple bar fills as you scroll, and each entry cites its parent hash. */
 export function ChainTimeline({ items, labels }: ChainTimelineProps) {
   const listRef = useRef<HTMLOListElement>(null);
+  const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: listRef, offset: ["start 75%", "end 65%"] });
 
   return (
     <div className="relative">
-      <div aria-hidden="true" className="absolute bottom-0 left-5 top-0 w-px -translate-x-1/2 bg-line-strong" />
+      <div
+        aria-hidden="true"
+        className="absolute bottom-0 left-[5px] top-0 w-1 border-l-4 border-dashed border-line-strong md:left-[calc(8.5rem+1rem-2px)]"
+      />
       <motion.div
         aria-hidden="true"
-        style={{ scaleY: scrollYProgress }}
-        className="absolute bottom-0 left-5 top-0 w-px origin-top -translate-x-1/2 bg-linear-to-b from-accent to-sky"
+        style={{ scaleY: reduceMotion ? 1 : scrollYProgress }}
+        className="absolute bottom-0 left-[4px] top-0 w-[6px] origin-top bg-accent md:left-[calc(8.5rem+1rem-3px)]"
       />
 
-      <ol ref={listRef} className="space-y-6">
+      <ol ref={listRef}>
         {items.map((item) => (
-          <li key={`${item.number}-${item.org}`} className="relative pl-14">
-            <HexBadge className="absolute left-0 top-1">{item.number}</HexBadge>
+          <li
+            key={`${item.number}-${item.org}`}
+            className="relative grid gap-y-3 pb-14 pl-9 last:pb-0 md:grid-cols-[8.5rem_2rem_minmax(0,1fr)] md:gap-y-0 md:pl-0"
+          >
+            <div className="md:pr-4 md:text-right">
+              <p className="hud text-ink">{item.period}</p>
+              {item.type ? <p className="hud mt-1">{item.type}</p> : null}
+            </div>
+            <span
+              aria-hidden="true"
+              className="absolute left-0 top-1 h-[14px] w-[14px] rotate-45 bg-accent shadow-[0_0_0_3px_var(--ink)] md:static md:mt-1.5 md:justify-self-center"
+            />
             <Reveal>
-              <article className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
-                <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <h3 className="text-xl font-semibold">{item.role}</h3>
-                  <p className="font-mono text-xs text-muted">{item.period}</p>
-                </header>
-                <p className="mt-1 flex flex-wrap items-center gap-2 text-accent-text">
-                  <span className="font-medium">{item.org}</span>
-                  {item.type ? (
-                    <span className="rounded-full border border-line-strong px-2 py-0.5 text-[11px] text-muted">
-                      {item.type}
-                    </span>
-                  ) : null}
-                </p>
-
-                {item.points.length > 0 ? (
-                  <ul className="mt-4 space-y-2 text-sm text-muted">
-                    {item.points.map((point) => (
-                      <li key={point} className="flex gap-2.5">
-                        <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent-text" />
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-
-                <footer className="mt-5 flex flex-wrap gap-x-4 gap-y-1 border-t border-line pt-3 font-mono text-[11px] text-muted">
-                  <span>
-                    {labels.block} #{item.number}
-                  </span>
-                  <span>0x{item.hash}</span>
-                  <span>
-                    {labels.parent} 0x{item.parent}
-                  </span>
-                </footer>
-              </article>
+              <h3 className="text-[clamp(1.5rem,2.4vw,1.9rem)] font-bold leading-tight">{item.role}</h3>
+              <p className="mt-1 text-lg font-semibold text-accent-text">{item.org}</p>
+              {item.points.length > 0 ? (
+                <ul className="mt-4 max-w-[58ch] space-y-2.5 text-lg text-muted">
+                  {item.points.map((point) => (
+                    <li key={point} className="flex gap-3">
+                      <span aria-hidden="true" className="mt-[0.7rem] h-2 w-2 shrink-0 bg-accent" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              <p className="hud mt-5 flex flex-wrap gap-x-5 gap-y-1 normal-case tracking-normal">
+                <span>
+                  {labels.block} #{item.number}
+                </span>
+                <span className="font-mono font-normal">0x{item.hash}</span>
+                <span>
+                  {labels.parent} <span className="font-mono font-normal">0x{item.parent}</span>
+                </span>
+              </p>
             </Reveal>
           </li>
         ))}

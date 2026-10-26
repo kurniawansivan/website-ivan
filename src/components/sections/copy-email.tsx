@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckIcon, CopyIcon } from "@/components/ui/icons";
+import { CheckIcon, CopyIcon, PixelArrow } from "@/components/ui/icons";
 
 interface CopyEmailProps {
   email: string;
@@ -9,6 +9,7 @@ interface CopyEmailProps {
   copiedLabel: string;
 }
 
+/** A menu row that copies the address. Same look as the link rows around it. */
 export function CopyEmail({ email, label, copiedLabel }: CopyEmailProps) {
   const [copied, setCopied] = useState(false);
 
@@ -32,15 +33,13 @@ export function CopyEmail({ email, label, copiedLabel }: CopyEmailProps) {
       <button
         type="button"
         onClick={copy}
-        aria-label={label}
-        className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line-strong px-4 font-mono text-sm text-muted transition-colors hover:border-accent-text/60 hover:text-ink"
+        className="group relative flex min-h-14 w-full items-center gap-4 border-b-2 border-dashed border-line py-3 pl-12 pr-4 text-left transition-colors hover:bg-raised focus-visible:bg-raised"
       >
-        {email}
-        {copied ? (
-          <CheckIcon className="h-4 w-4 text-accent-text" />
-        ) : (
-          <CopyIcon className="h-4 w-4" />
-        )}
+        <PixelArrow className="absolute left-4 hidden h-3 w-3 animate-nudge text-accent-text group-hover:block group-focus-visible:block" />
+        <span className="text-sm font-bold uppercase tracking-wide">{copied ? copiedLabel : label}</span>
+        <span className="ml-auto text-muted">
+          {copied ? <CheckIcon className="h-4 w-4 text-accent-text" /> : <CopyIcon className="h-4 w-4" />}
+        </span>
       </button>
       <span role="status" className="sr-only">
         {copied ? copiedLabel : ""}

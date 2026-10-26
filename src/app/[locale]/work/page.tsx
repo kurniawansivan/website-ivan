@@ -7,10 +7,9 @@ import { breadcrumbSchema } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 import { PageShell } from "@/components/layout/page-shell";
-import { Reveal } from "@/components/ui/reveal";
-import { containerClass } from "@/components/ui/section";
+import { Section } from "@/components/ui/section";
 import { toProjectView } from "@/components/work/view";
-import { WorkGrid } from "@/components/work/work-grid";
+import { WorkLedger } from "@/components/work/work-ledger";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -43,23 +42,17 @@ export default async function WorkIndexPage({ params }: Props) {
           ]),
         ]}
       />
-      <section aria-labelledby="work-title" className="pb-section pt-page">
-        <div className={containerClass}>
-          <Reveal>
-            <p className="eyebrow">
-              <span aria-hidden="true">{"// "}</span>
-              {dict.work.index.eyebrow}
-            </p>
-            <h1 id="work-title" className="mt-3 text-4xl font-bold sm:text-6xl">
-              {dict.work.index.title}
-            </h1>
-            <p className="mt-4 max-w-2xl text-lg text-muted">{dict.work.index.intro}</p>
-          </Reveal>
-          <div className="mt-stack">
-            <WorkGrid projects={views} filters={dict.work.filters} filterLabel={dict.work.filterLabel} />
-          </div>
-        </div>
-      </section>
+      <Section
+        id="work"
+        stage={2}
+        as="h1"
+        eyebrow={dict.work.index.eyebrow}
+        title={dict.work.index.title}
+        intro={dict.work.index.intro}
+        className="pb-section pt-page"
+      >
+        <WorkLedger projects={views} filters={dict.work.filters} filterLabel={dict.work.filterLabel} />
+      </Section>
     </PageShell>
   );
 }

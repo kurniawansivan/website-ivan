@@ -49,10 +49,10 @@ export function RoleCycler({ roles }: { roles: string[] }) {
   }, [index, roles]);
 
   return (
-    <p className="flex min-h-9 items-center font-mono text-lg text-accent-text sm:text-2xl">
+    <p className="flex min-h-7 items-center font-mono text-sm font-medium uppercase leading-none tracking-[0.08em]">
       <span className="sr-only">{roles.join(", ")}</span>
       <span aria-hidden="true">{text}</span>
-      <span aria-hidden="true" className="ml-1 inline-block h-[1.1em] w-[0.5ch] animate-blink bg-accent" />
+      <span aria-hidden="true" className="ml-2 inline-block h-3 w-2 animate-blink bg-accent" />
     </p>
   );
 }

@@ -1,56 +1,73 @@
 import type { Dictionary } from "@/content/dictionary";
-import { HexBadge } from "@/components/ui/hex-badge";
 import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
+import { Typewriter } from "@/components/ui/typewriter";
 
+/** A dialogue box for the bio, then plain lists for principles and tools. One window, easy to read. */
 export function About({ dict }: { dict: Dictionary["about"] }) {
+  const [lead, ...rest] = dict.paragraphs;
   return (
-    <Section id="about" eyebrow={dict.eyebrow} title={dict.title}>
-      <div className="grid gap-stack lg:grid-cols-[1.05fr_1fr]">
-        <div>
-          <Reveal>
-            <div className="space-y-5 text-lg text-ink/85">
-              {dict.paragraphs.map((paragraph) => (
+    <Section id="about" stage={4} eyebrow={dict.eyebrow} title={dict.title}>
+      <div className="space-y-stack">
+        <Reveal>
+          <div className="pixel pixel-lift p-6 sm:p-8">
+            <div className="flex items-center gap-4 border-b-2 border-line pb-5">
+              <span
+                aria-hidden="true"
+                className="grid h-14 w-14 shrink-0 place-items-center bg-accent font-display text-2xl font-bold text-accent-ink shadow-[0_-3px_0_0_var(--ink),0_3px_0_0_var(--ink),-3px_0_0_0_var(--ink),3px_0_0_0_var(--ink)]"
+              >
+                IK
+              </span>
+              <span className="hud text-ink">Ivan</span>
+            </div>
+            <Typewriter text={lead} speed={8} className="mt-6 max-w-[58ch] text-[1.35rem] leading-[1.6]" />
+            <div className="mt-6 max-w-[62ch] space-y-5 text-lg text-muted">
+              {rest.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
-          </Reveal>
+            <p aria-hidden="true" className="mt-5 flex justify-end">
+              <span className="h-0 w-0 animate-blink border-x-[7px] border-t-[9px] border-x-transparent border-t-accent" />
+            </p>
+          </div>
+        </Reveal>
 
-          <Reveal delay={0.1} className="mt-stack">
-            <h3 className="eyebrow">{dict.principlesTitle}</h3>
-            <ol className="mt-5 space-y-5">
-              {dict.principles.map((principle, index) => (
-                <li key={principle.title} className="flex gap-4">
-                  <HexBadge>{index + 1}</HexBadge>
-                  <div>
-                    <h4 className="font-display text-lg font-semibold">{principle.title}</h4>
-                    <p className="mt-1 text-muted">{principle.body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </Reveal>
-        </div>
+        <Reveal>
+          <h3 className="hud text-ink">{dict.principlesTitle}</h3>
+          <ol className="mt-4">
+            {dict.principles.map((principle, index) => (
+              <li key={principle.title} className="flex gap-5 border-t-2 border-line py-6 last:border-b-2">
+                <span className="grid h-9 w-9 shrink-0 place-items-center bg-accent text-sm font-bold text-accent-ink">
+                  {index + 1}
+                </span>
+                <div>
+                  <h4 className="text-xl font-bold">{principle.title}</h4>
+                  <p className="mt-1.5 max-w-[56ch] text-lg text-muted">{principle.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Reveal>
 
-        <Reveal delay={0.1}>
-          <h3 className="eyebrow">{dict.toolbeltTitle}</h3>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+        <Reveal>
+          <h3 className="hud text-ink">{dict.toolbeltTitle}</h3>
+          <dl className="mt-4">
             {dict.toolbelt.map((group) => (
-              <section key={group.title} className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
-                <h4 className="font-display text-base font-semibold">{group.title}</h4>
-                <ul className="mt-3 flex flex-wrap gap-1.5">
+              <div key={group.title} className="grid gap-3 border-t-2 border-line py-5 last:border-b-2 sm:grid-cols-[8rem_minmax(0,1fr)]">
+                <dt className="hud pt-1.5 text-ink">{group.title}</dt>
+                <dd className="flex flex-wrap gap-2">
                   {group.items.map((item) => (
-                    <li
+                    <span
                       key={item}
-                      className="rounded-full border border-line bg-raised/60 px-2.5 py-1 font-mono text-[11px] text-muted"
+                      className="bg-raised px-2.5 py-1 font-mono text-sm leading-tight shadow-[0_-2px_0_0_var(--line-strong),0_2px_0_0_var(--line-strong),-2px_0_0_0_var(--line-strong),2px_0_0_0_var(--line-strong)]"
                     >
                       {item}
-                    </li>
+                    </span>
                   ))}
-                </ul>
-              </section>
+                </dd>
+              </div>
             ))}
-          </div>
+          </dl>
         </Reveal>
       </div>
     </Section>

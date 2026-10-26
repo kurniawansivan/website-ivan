@@ -2,93 +2,97 @@ import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content/dictionary";
 import { site } from "@/content/site";
 import { localePath, type Locale } from "@/lib/i18n";
-import { cn } from "@/lib/utils";
-import { NetworkBackground } from "@/components/background/network-background";
 import { ButtonLink } from "@/components/ui/button-link";
-import { ArrowRight, MapPinIcon } from "@/components/ui/icons";
+import { MapPinIcon, PixelArrow } from "@/components/ui/icons";
 import { RoleCycler } from "@/components/ui/role-cycler";
-import { containerClass } from "@/components/ui/section";
+import { Clouds } from "@/components/layout/clouds";
+import { containerClass, STAGE_TOTAL } from "@/components/ui/section";
 import { HeroShowcase } from "./hero-showcase";
 
 interface HeroProps {
   locale: Locale;
   dict: Dictionary["hero"];
+  /** Label of the opening stage, shown top right. */
+  opening: string;
 }
 
-const rise = (i: number) => ({ "--i": i }) as CSSProperties;
+const step = (i: number) => ({ "--i": i }) as CSSProperties;
+const WORDS = ["Ivan", "Kurniawan", "Sentosa"];
 
-export function Hero({ locale, dict }: HeroProps) {
+/** The title screen: letters drop in with a bounce, then the quest board of production builds. */
+export function Hero({ locale, dict, opening }: HeroProps) {
   const home = localePath(locale, "/");
+  let letter = 0;
+
   return (
-    <section id="top" className="relative isolate flex min-h-svh items-center overflow-hidden pb-stack pt-page">
-      <NetworkBackground className="mask-fade-b absolute inset-0 -z-10 h-full w-full" />
-      <div aria-hidden="true" className="bg-grid mask-fade-radial absolute inset-0 -z-10" />
-
-      <div className={cn(containerClass, "grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16")}>
-        <div>
+    <section id="top" className="relative isolate pb-stack pt-page">
+      <Clouds variant="hero" className="top-0 h-[55%]" />
+      <div className={containerClass}>
+        <div style={step(0)} className="rise hud flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
           {site.availableForWork ? (
-            <p
-              style={rise(0)}
-              className="rise inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface/70 px-3.5 py-1.5 text-xs font-medium backdrop-blur"
-            >
-              <span className="relative flex h-2 w-2" aria-hidden="true">
-                <span className="absolute inset-0 animate-pulse-ring rounded-full bg-accent motion-reduce:hidden" />
-                <span className="relative h-2 w-2 rounded-full bg-accent" />
-              </span>
+            <span className="flex items-center gap-3 text-ink">
+              <span aria-hidden="true" className="h-2 w-2 animate-blink bg-accent" />
               {dict.available}
-            </p>
-          ) : null}
-
-          <h1 className="mt-7 font-display text-[clamp(3rem,10.5vw,6.5rem)] font-bold leading-[0.92] tracking-tight">
-            <span style={rise(1)} className="rise block">
-              Ivan
-            </span>{" "}
-            <span style={rise(2)} className="rise block">
-              Kurniawan
-            </span>{" "}
-            <span style={rise(3)} className="rise text-gradient block pb-2">
-              Sentosa
             </span>
-          </h1>
-
-          <div style={rise(4)} className="rise mt-5">
-            <RoleCycler roles={dict.roles} />
-          </div>
-
-          <p style={rise(5)} className="rise mt-6 max-w-xl text-lg text-muted sm:text-xl">
-            {dict.lead}
-          </p>
-
-          <div style={rise(6)} className="rise mt-9 flex flex-wrap items-center gap-3">
-            <ButtonLink href={`${home}#work`}>
-              {dict.ctaWork}
-              <ArrowRight className="h-4 w-4" />
-            </ButtonLink>
-            <ButtonLink href={`${home}#contact`} variant="ghost">
-              {dict.ctaTalk}
-            </ButtonLink>
-          </div>
-
-          <p
-            style={rise(7)}
-            className="rise mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs text-muted"
-          >
-            <span className="inline-flex items-center gap-1.5">
-              <MapPinIcon className="h-4 w-4" />
-              {site.location.city}, {site.location.country}
-            </span>
-            <a
-              href={site.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-ink"
-            >
-              github.com/{site.githubUser}
-            </a>
-          </p>
+          ) : (
+            <span />
+          )}
+          <span>
+            Stage 01/{String(STAGE_TOTAL).padStart(2, "0")} — {opening}
+          </span>
         </div>
 
-        <HeroShowcase locale={locale} dict={dict.showcase} />
+        <h1 className="title-shadow mt-10 font-display text-[clamp(2.75rem,9.6vw,8rem)] font-bold leading-[1.02] tracking-[-0.01em]">
+          <span className="sr-only">{site.name}</span>
+          <span aria-hidden="true">
+            {WORDS.map((word) => (
+              <span key={word} className="mr-[0.28em] inline-block whitespace-nowrap">
+                {[...word].map((char, index) => (
+                  <span key={index} className="letter" style={{ "--i": letter++ } as CSSProperties}>
+                    {char}
+                  </span>
+                ))}
+              </span>
+            ))}
+          </span>
+        </h1>
+
+        <div className="mt-14 grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] lg:items-start lg:gap-16">
+          <div>
+            <div style={step(8)} className="rise flex items-center gap-4">
+              <span className="hud">{dict.roleLabel}</span>
+              <RoleCycler roles={dict.roles} />
+            </div>
+            <p style={step(9)} className="rise mt-6 max-w-[34rem] text-[1.3rem] leading-[1.5] sm:text-2xl">
+              {dict.lead}
+            </p>
+            <div style={step(10)} className="rise mt-10 flex flex-wrap items-center gap-x-6 gap-y-5">
+              <ButtonLink href={`${home}#work`}>
+                <PixelArrow className="h-3 w-3" />
+                {dict.ctaWork}
+              </ButtonLink>
+              <ButtonLink href={`${home}#contact`} variant="ghost">
+                {dict.ctaTalk}
+              </ButtonLink>
+            </div>
+            <p style={step(11)} className="rise hud mt-10 flex flex-wrap items-center gap-x-6 gap-y-1">
+              <span className="inline-flex items-center gap-2">
+                <MapPinIcon className="h-4 w-4" />
+                {site.location.city}, {site.location.country}
+              </span>
+              <a
+                href={site.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center text-ink hover:text-accent-text"
+              >
+                github.com/{site.githubUser}
+              </a>
+            </p>
+          </div>
+
+          <HeroShowcase locale={locale} dict={dict.showcase} />
+        </div>
       </div>
     </section>
   );

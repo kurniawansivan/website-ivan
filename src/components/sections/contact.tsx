@@ -1,54 +1,73 @@
 import type { Dictionary } from "@/content/dictionary";
 import { site } from "@/content/site";
-import { ButtonLink } from "@/components/ui/button-link";
-import { GithubIcon, LinkedinIcon, MailIcon, MapPinIcon } from "@/components/ui/icons";
+import { ArrowUpRight, MapPinIcon, PixelArrow } from "@/components/ui/icons";
 import { Reveal } from "@/components/ui/reveal";
-import { containerClass } from "@/components/ui/section";
+import { containerClass, STAGE_TOTAL } from "@/components/ui/section";
 import { CopyEmail } from "./copy-email";
 
+const row =
+  "group relative flex min-h-14 items-center gap-4 border-b-2 border-dashed border-line py-3 pl-12 pr-4 transition-colors hover:bg-raised focus-visible:bg-raised";
+
+/** The last stage: a big headline, then a choice menu with a cursor, like a "Continue?" screen. */
 export function Contact({ dict }: { dict: Dictionary["contact"] }) {
+  const stage = String(STAGE_TOTAL).padStart(2, "0");
+  const options = [
+    { label: dict.email, value: site.email, href: `mailto:${site.email}`, external: false },
+    { label: dict.linkedin, value: "ivankurniawansentosa", href: site.linkedin, external: true },
+    { label: dict.github, value: site.githubUser, href: site.github, external: true },
+  ];
+
   return (
     <section id="contact" aria-labelledby="contact-title" className="relative py-section">
       <div className={containerClass}>
         <Reveal>
-          <div className="relative isolate overflow-hidden rounded-3xl border border-line bg-surface p-6 sm:p-12">
-            <div
-              aria-hidden="true"
-              className="absolute -right-24 -top-24 -z-10 h-96 w-96 bg-[radial-gradient(closest-side,rgb(var(--accent-rgb)/0.22),transparent)]"
-            />
-            <div aria-hidden="true" className="bg-grid mask-fade-radial absolute inset-0 -z-10 opacity-60" />
-
-            <p className="eyebrow">
-              <span aria-hidden="true">{"// "}</span>
-              {dict.eyebrow}
+          <div className="pixel pixel-lift p-6 sm:p-10">
+            <p className="hud flex flex-wrap items-center justify-between gap-3">
+              <span className="bg-accent px-2 py-1 text-accent-ink">
+                Stage {stage}/{stage}
+              </span>
+              <span className="text-ink">{dict.eyebrow}</span>
             </p>
-            <h2 id="contact-title" className="mt-3 max-w-3xl text-4xl font-bold sm:text-6xl">
+
+            <h2
+              id="contact-title"
+              className="title-shadow mt-8 font-display text-[clamp(2.5rem,6.6vw,5.5rem)] font-bold leading-[1.05] tracking-[-0.01em]"
+            >
               {dict.title}
             </h2>
-            <p className="mt-5 max-w-xl text-lg text-muted">{dict.body}</p>
+            <p className="mt-6 max-w-xl text-xl text-muted">{dict.body}</p>
 
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <ButtonLink href={`mailto:${site.email}`} external>
-                <MailIcon className="h-4 w-4" />
-                {dict.email}
-              </ButtonLink>
-              <CopyEmail email={site.email} label={dict.copy} copiedLabel={dict.copied} />
-            </div>
+            <ul className="mt-10 border-t-4 border-dashed border-line">
+              <li>
+                <a href={options[0].href} className={row}>
+                  <PixelArrow className="absolute left-4 hidden h-3 w-3 animate-nudge text-accent-text group-hover:block group-focus-visible:block" />
+                  <span className="text-sm font-bold uppercase tracking-wide">{options[0].label}</span>
+                  <span className="ml-auto break-all font-mono text-sm text-muted">{options[0].value}</span>
+                </a>
+              </li>
+              <li>
+                <CopyEmail email={site.email} label={dict.copy} copiedLabel={dict.copied} />
+              </li>
+              {options.slice(1).map((option) => (
+                <li key={option.label}>
+                  <a href={option.href} target="_blank" rel="noopener noreferrer" className={row}>
+                    <PixelArrow className="absolute left-4 hidden h-3 w-3 animate-nudge text-accent-text group-hover:block group-focus-visible:block" />
+                    <span className="text-sm font-bold uppercase tracking-wide">{option.label}</span>
+                    <span className="ml-auto flex items-center gap-2 font-mono text-sm text-muted">
+                      {option.value}
+                      <ArrowUpRight className="h-4 w-4" />
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
 
-            <div className="mt-3 flex flex-wrap items-center gap-3">
-              <ButtonLink href={site.linkedin} external variant="ghost">
-                <LinkedinIcon className="h-4 w-4" />
-                {dict.linkedin}
-              </ButtonLink>
-              <ButtonLink href={site.github} external variant="ghost">
-                <GithubIcon className="h-4 w-4" />
-                {dict.github}
-              </ButtonLink>
-            </div>
-
-            <p className="mt-10 flex items-center gap-2 font-mono text-xs text-muted">
-              <MapPinIcon className="h-4 w-4" />
-              {dict.location} {site.location.city}, {site.location.country}
+            <p className="hud mt-8 flex flex-wrap items-center justify-between gap-3">
+              <span className="inline-flex items-center gap-2">
+                <MapPinIcon className="h-4 w-4" />
+                {dict.location} {site.location.city}, {site.location.country}
+              </span>
+              <span className="text-ink">Player 1 — Ivan K. Sentosa</span>
             </p>
           </div>
         </Reveal>

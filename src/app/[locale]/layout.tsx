@@ -1,19 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
+import { IBM_Plex_Mono, Instrument_Sans, Pixelify_Sans } from "next/font/google";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { getDictionary } from "@/content/dictionary";
 import { site } from "@/content/site";
 import { isLocale, locales } from "@/lib/i18n";
+import { Backdrop } from "@/components/layout/backdrop";
 import { Providers } from "@/components/providers";
 import "../globals.css";
 
-const display = Space_Grotesk({ subsets: ["latin"], variable: "--font-space-grotesk", display: "swap" });
-const sans = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
-const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
+const display = Pixelify_Sans({ subsets: ["latin"], variable: "--font-pixelify", display: "swap" });
+const sans = Instrument_Sans({ subsets: ["latin"], variable: "--font-instrument-sans", display: "swap" });
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-plex-mono",
+  display: "swap",
+});
 
-/** Runs before first paint so the saved theme never flashes. Dark is the default. */
-const themeInit = `try{var t=localStorage.getItem("theme");document.documentElement.dataset.theme=t==="light"?"light":"dark"}catch(e){document.documentElement.dataset.theme="dark"}`;
+/** Runs before first paint so the theme never flashes: saved choice first, then the OS preference. */
+const themeInit = `try{var t=localStorage.getItem("theme");var d=t?t==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.dataset.theme=d?"dark":"light"}catch(e){document.documentElement.dataset.theme="light"}`;
 
 /** Keeps scroll-reveal content visible when JavaScript is disabled. */
 const noScriptCss = `.reveal{opacity:1!important;transform:none!important}`;
@@ -28,8 +34,8 @@ export function generateStaticParams() {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f6fa" },
-    { media: "(prefers-color-scheme: dark)", color: "#06080d" },
+    { media: "(prefers-color-scheme: light)", color: "#e4e8ff" },
+    { media: "(prefers-color-scheme: dark)", color: "#110e32" },
   ],
   colorScheme: "dark light",
 };
@@ -82,11 +88,11 @@ export default async function RootLayout({ children, params }: LayoutProps) {
       <body>
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-accent-ink"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-accent focus:px-4 focus:py-3 focus:text-sm focus:font-bold focus:uppercase focus:text-accent-ink"
         >
           {dict.nav.skip}
         </a>
-        <div aria-hidden="true" className="aurora pointer-events-none fixed inset-0 -z-10" />
+        <Backdrop />
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -12,7 +12,6 @@ import { About } from "@/components/sections/about";
 import { Contact } from "@/components/sections/contact";
 import { Experience } from "@/components/sections/experience";
 import { Hero } from "@/components/sections/hero";
-import { Marquee } from "@/components/sections/marquee";
 import { Services } from "@/components/sections/services";
 import { Stats } from "@/components/sections/stats";
 import { Work } from "@/components/sections/work";
@@ -45,7 +44,7 @@ export default async function HomePage({ params }: Props) {
   return (
     <PageShell locale={locale} path="/" isHome>
       <JsonLd graph={[personSchema(locale), websiteSchema(locale)]} />
-      <Hero locale={locale} dict={dict.hero} />
+      <Hero locale={locale} dict={dict.hero} opening={dict.nav.opening} />
       <Stats
         locale={locale}
         dict={dict.proof}
@@ -53,7 +52,6 @@ export default async function HomePage({ params }: Props) {
         languages={github.languages}
         cases={projects.length}
       />
-      <Marquee />
       <Work locale={locale} dict={dict.work} />
       <Services dict={dict.services} />
       <About dict={dict.about} />

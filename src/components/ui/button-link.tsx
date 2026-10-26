@@ -13,16 +13,9 @@ interface ButtonLinkProps {
   "aria-label"?: string;
 }
 
-const base =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-medium whitespace-nowrap transition-[transform,box-shadow,background-color,border-color,color] duration-200 active:scale-[0.98]";
-
-const variants = {
-  primary: "bg-accent text-accent-ink glow-accent hover:brightness-110",
-  ghost: "border border-line-strong text-ink hover:border-accent-text/60 hover:bg-accent/5",
-} as const;
-
+/** Chunky pixel button. The look lives in `.btn` (globals.css); this only picks the variant. */
 export function ButtonLink({ href, variant = "primary", external, className, children, ...rest }: ButtonLinkProps) {
-  const classes = cn(base, variants[variant], className);
+  const classes = cn("btn", variant === "primary" ? "btn-primary" : "btn-ghost", className);
 
   if (external) {
     const isMail = href.startsWith("mailto:");

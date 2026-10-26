@@ -10,9 +10,9 @@ import { pageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { JsonLd } from "@/components/json-ld";
 import { PageShell } from "@/components/layout/page-shell";
+import { Badge, type BadgeTone } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button-link";
-import { ArrowLeft, ArrowRight, ArrowUpRight, GithubIcon } from "@/components/ui/icons";
-import { HexBadge } from "@/components/ui/hex-badge";
+import { ArrowUpRight, GithubIcon, PixelArrow } from "@/components/ui/icons";
 import { Reveal } from "@/components/ui/reveal";
 import { containerClass } from "@/components/ui/section";
 import { getVisualMeta, ProjectVisual } from "@/components/work/visuals";
@@ -25,11 +25,7 @@ export function generateStaticParams() {
   return locales.flatMap((locale) => projects.map((project) => ({ locale, slug: project.slug })));
 }
 
-const kindStyles: Record<Kind, string> = {
-  work: "border-amber/30 bg-amber/10 text-amber",
-  personal: "border-accent-text/30 bg-accent/10 text-accent-text",
-  research: "border-sky/30 bg-sky/10 text-sky",
-};
+const kindTone: Record<Kind, BadgeTone> = { work: "pink", personal: "purple", research: "blue" };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
@@ -74,48 +70,52 @@ export default async function ProjectPage({ params }: Props) {
         <div className={containerClass}>
           <Link
             href={localePath(locale, "/work")}
-            className="inline-flex min-h-11 items-center gap-2 text-sm text-muted transition-colors hover:text-ink"
+            className="hud inline-flex min-h-11 items-center gap-3 text-ink hover:text-accent-text"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <PixelArrow className="h-3 w-3 rotate-180" />
             {dict.project.back}
           </Link>
 
-          <header className="mt-6 max-w-3xl">
-            <p className="flex flex-wrap items-center gap-3 text-xs">
-              <span className={cn("rounded-full border px-2.5 py-0.5 font-medium", kindStyles[project.kind])}>
-                {dict.work.kind[project.kind]}
-              </span>
-              <span className="font-mono text-muted">0x{blockHash(project.slug, 8)}</span>
+          <header className="mt-6 border-b-4 border-dashed border-line-strong pb-10">
+            <p className="hud flex flex-wrap items-center gap-x-5 gap-y-3">
+              <Badge tone={kindTone[project.kind]}>{dict.work.kind[project.kind]}</Badge>
+              <span>No. {String(index + 1).padStart(3, "0")}</span>
+              <span>Ref 0x{blockHash(project.slug, 8)}</span>
+              {project.year ? <span>{project.year}</span> : null}
             </p>
-            <h1 className="mt-5 text-4xl font-bold sm:text-6xl">{copy.title}</h1>
-            <p className="mt-4 text-xl text-muted">{copy.tagline}</p>
+            <h1 className="title-shadow mt-8 font-display text-[clamp(2.5rem,7vw,5.5rem)] font-bold leading-[1.05] tracking-[-0.01em]">
+              {copy.title}
+            </h1>
+            <p className="mt-6 max-w-2xl text-xl text-muted">{copy.tagline}</p>
           </header>
 
           {visual ? (
-            <Reveal className="mt-8">
-              <figure className="overflow-hidden rounded-2xl border border-line bg-surface">
-                <ProjectVisual slug={project.slug} label={visual.alt} />
-                <figcaption className="border-t border-line px-4 py-3 text-xs text-muted sm:px-5">
-                  {dict.project.figure[visual.figure]}
+            <Reveal className="mt-stack">
+              <figure>
+                <div className="pixel pixel-lift p-2">
+                  <ProjectVisual slug={project.slug} label={visual.alt} />
+                </div>
+                <figcaption className="hud mt-7 max-w-3xl">
+                  <span className="text-ink">Exhibit A</span> — {dict.project.figure[visual.figure]}
                 </figcaption>
               </figure>
             </Reveal>
           ) : null}
 
-          <div className="mt-stack grid gap-stack lg:grid-cols-[1fr_20rem]">
+          <div className="mt-stack grid gap-12 lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-16">
             <div className="space-y-stack">
               <Reveal>
-                <h2 className="eyebrow">{dict.project.overview}</h2>
-                <p className="mt-4 text-lg text-ink/85">{copy.summary}</p>
+                <h2 className="hud text-ink">{dict.project.overview}</h2>
+                <p className="mt-4 max-w-[62ch] text-[1.3rem] leading-[1.6]">{copy.summary}</p>
               </Reveal>
 
               <Reveal>
-                <h2 className="eyebrow">{dict.project.built}</h2>
-                <ol className="mt-5 space-y-5">
+                <h2 className="hud text-ink">{dict.project.built}</h2>
+                <ol className="mt-4">
                   {copy.highlights.map((highlight, i) => (
-                    <li key={highlight} className="flex gap-4">
-                      <HexBadge>{String(i + 1).padStart(2, "0")}</HexBadge>
-                      <p className="pt-1.5 text-ink/85">{highlight}</p>
+                    <li key={highlight} className="flex gap-4 border-b-2 border-dashed border-line py-5">
+                      <span className="hud grid h-8 w-8 shrink-0 place-items-center bg-accent text-accent-ink">{i + 1}</span>
+                      <p className="pt-1 text-lg">{highlight}</p>
                     </li>
                   ))}
                 </ol>
@@ -123,98 +123,89 @@ export default async function ProjectPage({ params }: Props) {
             </div>
 
             <Reveal delay={0.1}>
-              <aside className="space-y-6 rounded-2xl border border-line bg-surface p-5 sm:p-6 lg:sticky lg:top-24">
-                <dl className="grid grid-cols-2 gap-x-4 gap-y-4 text-sm">
+              <aside className="pixel pixel-lift p-5 sm:p-6 lg:sticky lg:top-24">
+                <dl className="text-sm">
                   {copy.role ? (
-                    <div className="col-span-2">
-                      <dt className="text-muted">{dict.project.role}</dt>
-                      <dd className="mt-0.5 font-medium">{copy.role}</dd>
+                    <div className="border-b-2 border-dashed border-line pb-4">
+                      <dt className="hud">{dict.project.role}</dt>
+                      <dd className="mt-2 text-base font-semibold">{copy.role}</dd>
                     </div>
                   ) : null}
-                  <div>
-                    <dt className="text-muted">{dict.project.kind}</dt>
-                    <dd className="mt-0.5 font-medium">{dict.work.kind[project.kind]}</dd>
-                  </div>
-                  {project.year ? (
+                  <div className="grid grid-cols-2 gap-4 border-b-2 border-dashed border-line py-4">
                     <div>
-                      <dt className="text-muted">{dict.project.year}</dt>
-                      <dd className="mt-0.5 font-medium tabular-nums">{project.year}</dd>
+                      <dt className="hud">{dict.project.kind}</dt>
+                      <dd className="mt-2 text-base font-semibold">{dict.work.kind[project.kind]}</dd>
                     </div>
-                  ) : null}
-                  <div className="col-span-2">
-                    <dt className="text-muted">{dict.project.hash}</dt>
-                    <dd className="mt-0.5 break-all font-mono text-[11px] leading-relaxed text-accent-text">
-                      0x{blockHash(project.slug, 64)}
+                    {project.year ? (
+                      <div>
+                        <dt className="hud">{dict.project.year}</dt>
+                        <dd className="mt-2 text-base font-semibold tabular-nums">{project.year}</dd>
+                      </div>
+                    ) : null}
+                  </div>
+                  <div className="border-b-2 border-dashed border-line py-4">
+                    <dt className="hud">{dict.project.hash}</dt>
+                    <dd className="mt-2 break-all font-mono text-xs leading-relaxed">0x{blockHash(project.slug, 64)}</dd>
+                  </div>
+                  <div className="border-b-2 border-dashed border-line py-4">
+                    <dt className="hud">{dict.project.stack}</dt>
+                    <dd className="mt-2 font-mono text-sm leading-relaxed">{project.stack.join(" · ")}</dd>
+                  </div>
+                  <div className="pt-4">
+                    <dt className="hud">{dict.project.links}</dt>
+                    <dd className="mt-4 flex flex-col gap-5">
+                      {project.repo ? (
+                        <ButtonLink href={repoUrl(project.repo)} external variant="ghost">
+                          <GithubIcon className="h-4 w-4" />
+                          {dict.project.source}
+                        </ButtonLink>
+                      ) : null}
+                      {project.live ? (
+                        <ButtonLink href={project.live} external variant="ghost">
+                          {dict.project.live}
+                          <ArrowUpRight className="h-4 w-4" />
+                        </ButtonLink>
+                      ) : null}
+                      {!project.repo && !project.live ? <p className="text-muted">{dict.project.privateRepo}</p> : null}
                     </dd>
                   </div>
                 </dl>
-
-                <div className="border-t border-line pt-6">
-                  <h2 className="text-sm text-muted">{dict.project.stack}</h2>
-                  <ul className="mt-3 flex flex-wrap gap-1.5">
-                    {project.stack.map((item) => (
-                      <li
-                        key={item}
-                        className="rounded-full border border-line bg-raised/60 px-2.5 py-1 font-mono text-[11px] text-muted"
-                      >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="border-t border-line pt-6">
-                  <h2 className="text-sm text-muted">{dict.project.links}</h2>
-                  <div className="mt-3 flex flex-col gap-2">
-                    {project.repo ? (
-                      <ButtonLink href={repoUrl(project.repo)} external variant="ghost">
-                        <GithubIcon className="h-4 w-4" />
-                        {dict.project.source}
-                      </ButtonLink>
-                    ) : null}
-                    {project.live ? (
-                      <ButtonLink href={project.live} external variant="ghost">
-                        {dict.project.live}
-                        <ArrowUpRight className="h-4 w-4" />
-                      </ButtonLink>
-                    ) : null}
-                    {!project.repo && !project.live ? (
-                      <p className="text-sm text-muted">{dict.project.privateRepo}</p>
-                    ) : null}
-                  </div>
-                </div>
               </aside>
             </Reveal>
           </div>
 
-          <nav aria-label="Project navigation" className="mt-stack grid gap-4 sm:grid-cols-2">
+          <nav aria-label="Project navigation" className="mt-stack grid gap-8 sm:grid-cols-2">
             {[
-              { project: previous, label: dict.project.prev, icon: <ArrowLeft className="h-4 w-4" />, align: "" },
-              { project: next, label: dict.project.next, icon: <ArrowRight className="h-4 w-4" />, align: "sm:text-right sm:items-end" },
-            ].map(({ project: target, label, icon, align }) => (
+              { target: previous, label: dict.project.prev, side: "prev" },
+              { target: next, label: dict.project.next, side: "next" },
+            ].map(({ target, label, side }) => (
               <Link
-                key={label}
+                key={side}
                 href={localePath(locale, `/work/${target.slug}`)}
                 className={cn(
-                  "group flex flex-col gap-1 rounded-2xl border border-line bg-surface p-5 transition-colors hover:border-accent-text/50 sm:p-6",
-                  align,
+                  "pixel group flex flex-col gap-3 p-5 transition-colors hover:bg-raised hover:[background-image:none] sm:p-6",
+                  side === "next" && "sm:items-end sm:text-right",
                 )}
               >
-                <span className="flex items-center gap-2 font-mono text-xs text-muted group-hover:text-accent-text">
-                  {label === dict.project.prev ? icon : null}
+                <span className="hud flex items-center gap-3">
+                  {side === "prev" ? <PixelArrow className="h-3 w-3 rotate-180" /> : null}
                   {label}
-                  {label === dict.project.next ? icon : null}
+                  {side === "next" ? <PixelArrow className="h-3 w-3" /> : null}
                 </span>
-                <span className="font-display text-lg font-semibold">{target.copy[locale].title}</span>
+                <span className="font-heading text-2xl font-bold leading-tight group-hover:text-accent-text">
+                  {target.copy[locale].title}
+                </span>
               </Link>
             ))}
           </nav>
 
-          <div className="mt-4 flex flex-col items-start justify-between gap-4 rounded-2xl border border-line bg-surface p-5 sm:flex-row sm:items-center sm:p-6">
-            <p className="font-display text-2xl font-semibold">{dict.project.discuss}</p>
+          <div className="mt-stack flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+            <p className="font-heading text-[clamp(1.6rem,3.2vw,2.4rem)] font-bold leading-tight">
+              {dict.project.discuss}
+            </p>
             <ButtonLink href={`${localePath(locale, "/")}#contact`}>
+              <PixelArrow className="h-3 w-3" />
               {dict.project.discussCta}
-              <ArrowRight className="h-4 w-4" />
             </ButtonLink>
           </div>
         </div>
